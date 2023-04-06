@@ -1,7 +1,12 @@
-import { useEffect, useState } from "react";
+// 1. App.jsx로 옮기기
+// 2. 회차랑 내 점수를 배열(회차는 인덱스가 있기 때문에 배열을 사용)로 저장
+
+import { useContext, useEffect, useState } from "react";
+import { AppContext } from "../App";
 
 const GameBoard = () => {
-  const [point, setPoint] = useState(5);
+  const { point, setPoint } = useContext(AppContext);
+  const { data, setData } = useContext(AppContext);
   const [randomNum, setRandomNum] = useState(Math.floor(Math.random() * 100));
   const [choiceNum, setChoiceNum] = useState("");
   const [hint, setHint] = useState("0 ~ 100 사이의 숫자를 맞춰보세요!");
@@ -40,6 +45,9 @@ const GameBoard = () => {
         localStorage.setItem("point", parseInt(savedPoint) + point);
       }
 
+      // 역대 포인트 저장
+      setData([...data, point]);
+      console.log(data);
       // 랜덤값을 초기화
       setRandomNum(Math.floor(Math.random() * 100));
       setChoiceNum("");
